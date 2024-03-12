@@ -11,23 +11,17 @@ loaded_model = joblib.load('random_forest_model.pkl')  # Replace 'your_model.pkl
 def home():
     return "Random Forest Model Tester"
 
-@app.route('/predict', methods=['POST', 'GET'])
+@app.route('/predict', methods=['POST'])
 def predict():
     try:
-        if request.method == 'POST':
-            # Handle POST request as before
-            ph = float(request.form['ph'])
-            temperature = int(request.form['temperature'])
-            fat = float(request.form['fat'])
-            colour = int(request.form['colour'])
-        elif request.method == 'GET':
-            # Handle GET request by extracting parameters from the URL
-            ph = float(request.args.get('ph'))
-            temperature = int(request.args.get('temperature'))
-            fat = float(request.args.get('fat'))
-            colour = int(request.args.get('colour'))
-        else:
-            return jsonify({'error': 'Unsupported HTTP method'}), 400
+        # Parse JSON data from the request body
+        json_data = request.get_json()
+
+        # Extract parameters from JSON data
+        ph = float(json_data.get('ph', 0.0))
+        temperature = int(json_data.get('temperature', 0))
+        fat = float(json_data.get('fat', 0.0))
+        colour = int(json_data.get('colour', 0))
 
         # Create a DataFrame with user input
         new_input_data = {'pH': [ph], 'Temprature': [temperature], 'Fat ': [fat], 'Colour': [colour]}
