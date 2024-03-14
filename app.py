@@ -51,7 +51,7 @@ def predict():
         # Display the predicted grade
         predicted_grade = int(y_pred_loaded_model[0])  # Convert to int
 
-        return jsonify({'predicted_grade': predicted_grade})
+        return jsonify({'grade': predicted_grade})
 
     except ValueError as ve:
         return jsonify({'error': str(ve)}), 400  # Bad Request
